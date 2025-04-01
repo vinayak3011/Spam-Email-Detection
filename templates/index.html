@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- Basic -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Mobile Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <!-- Site Metas -->
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+  <link rel="shortcut icon" href="/static/images/favicon.png" type="">
+
+  <title> Spam-Emal-Detection </title>
+
+  <!-- bootstrap core css -->
+  <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.css" />
+
+  <!-- fonts style -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+  <!--owl slider stylesheet -->
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+
+  <!-- font awesome style -->
+  <link href="/static/css/font-awesome.min.css" rel="stylesheet" />
+
+  <!-- Custom styles for this template -->
+  <link href="/static/css/style.css" rel="stylesheet" />
+  <!-- responsive style -->
+  <link href="/static/css/responsive.css" rel="stylesheet" />
+
+</head>
+
+<body>
+
+  <div class="hero_area">
+
+    <div class="hero_bg_box">
+      <div class="bg_img_box">
+        <img src="/static/images/hero-bg.png" alt="">
+      </div>
+    </div>
+
+    <!-- header section strats -->
+    <header class="header_section">
+      <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg custom_nav-container ">
+          <a class="navbar-brand" href="">
+            <span>
+              Spam Email Detector
+            </span>
+          </a>
+
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class=""> </span>
+          </button>
+          
+        </nav>
+      </div>
+    </header>
+    <!-- end header section -->
+    <!-- slider section -->
+    <section class="slider_section " style="max-width: 100%;">
+      <div id="customCarousel1" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <div class="container " style="max-width: 100%;">
+              <div class="row">
+                <div class="col-md-6 " style="max-width: 100%; position: relative; flex: none; text-align: center;">
+                  <div class="detail-box" >
+                    <h1 >
+                      Spam Email Detector
+                    </h1>
+                    <p>
+                      Our website analyzes email content and determines whether it’s spam using advanced AI algorithms. <br>
+                      Just paste the email text, and we’ll tell you if it’s legit or junk!
+                    </p>
+                  </div>
+                </div>
+                <div class="col-md-6" style="max-width: 100%; position: relative; flex: none;">
+                  <!-- <div class="img-box">
+                    <img src="images/slider-img.png" alt="">
+                  </div> -->
+                  <section id=blog class="section_scroll blog_area ptb-110 grad1" data-scroll-index=3>
+                    <div class=container style="max-width: 100%;">
+                       <div class=row>
+                          <div class=col-lg-12>
+                             <div class="section_title text-center">
+                             </div>
+                          </div>
+                       </div>
+                       <title class="text-center text-success mt-5" >Spam E-mail Detector</title>
+                       <form class action="{{url_for('predict')}}" method=POST>
+                          <div class="form-group col-md-10 ml-5" style="max-width: none; padding-right: 100px;"> <label class="mt-5 " for=comment><b style="color: white;">Enter the content of your
+                                   E-mail</b></label> <textarea class=form-control name=comment id=comment rows=10 cols=50
+                                placeholder="Copy your content from anywhere then press Ctrl+V to paste the content here."></textarea>
+                          </div>
+                          <div align=center class="btn-box"> <button class="btn btn-default btn-sumbit" class="btn1" style="width: 300px; color: white; padding: 10px 15px; background-color: #00bbf0; transition: all 0.3s; display: inline-block;" type=submit>Predict</button> </div>
+                       </form><br><br>
+                </section>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+    <!-- end slider section -->
+  </div>
+
+
+  <!-- service section -->
+
+  <section class="service_section layout_padding">
+
+    <section id=blog class="section_scroll blog_area ptb-110 grad1" data-scroll-index=3>
+      <div class=container>
+         <div class=row>
+            <div class=col-lg-12>
+            <!-- Result Section (Only shows when prediction is made) -->
+            {% if prediction and email_content %}
+            <section id="result_section" class="result_section" style="margin-top: 20px; text-align: center;">
+              <h1 style="font-family: Arial, Helvetica, sans-serif;"><b>Email Content:</b></h1>
+              <div style="border: 1px solid #ddd; padding: 15px; margin-bottom: 20px; background-color: #f9f9f9; text-align: left;">
+                <pre style="white-space: pre-wrap; font-size: 16px; color: #333;">{{ email_content }}</pre>
+              </div>
+              
+              <h2 style="font-family: Arial, Helvetica, sans-serif;"><b>Prediction Result:</b></h2>
+              <p class="{% if prediction == 'Spam' %}text-red{% else %}text-green{% endif %}" style="font-size: 20px; font-weight: bold;">
+                {% if prediction == 'Spam' %}
+                  ❌ {{ prediction }}
+                {% else %}
+                  ✅ {{ prediction }}
+                {% endif %}
+              </p>
+            </section>
+            {% endif %}
+
+            </div>
+         </div>
+  </section>
+  </section>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      // Check if the result section exists (i.e., a prediction was made)
+      if (document.getElementById("result_section")) {
+        // Scroll to the result section smoothly
+        document.getElementById("result_section").scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+  </script>
+  
+
+  <!-- jQery -->
+  <script type="text/javascript" src="/static/js/jquery-3.4.1.min.js"></script>
+  <!-- popper js -->
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+  </script>
+  <!-- bootstrap js -->
+  <script type="text/javascript" src="/static/js/bootstrap.js"></script>
+  <!-- owl slider -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js">
+  </script>
+  <!-- custom js -->
+  <script type="text/javascript" src="/static/js/custom.js"></script>
+  <!-- Google Map -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap">
+  </script>
+  <!-- End Google Map -->
+
+</body>
+
+</html>
